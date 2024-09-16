@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(images/1.jpg);
+            overflow-x: hidden; 
+            color: #fff;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            z-index: 100;
+        }
+        
+
+
+
+        .header img {
+            width: 120px;
+        }
+
+        .header .sign-out-btn {
+            display: none;
+            background-color: #e50914;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        
+        .landing-page {
+            height: 100vh;
+            position: relative;
+            background-image: url('https://assets.nflxext.com/ffe/siteui/vlv3/f3f8f6c6-15a2-47e1-a277-b0107ed2d1c9/99269a85-49e1-4030-bad9-49d92862126e/IN-en-20230626-popsignuptwoweeks-perspective_alpha_website_large.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            top: 30%;
+        }
+
+        .content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .content button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background-color: #e50914;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+        }
+
+       
+        .signin-page {
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .signin-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .signin-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .signin-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        
+        .signup-page {
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: #141414;
+        }
+
+        .signup-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .signup-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .signup-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        
+        .profiles-page {
+            display: none;
+            text-align: center;
+            padding: 100px 20px;
+            background-color: #000; 
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .profiles {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            
+        }
+        
+        .profile {
+            width: 150px;
+            height: 150px;
+            background-color: #444;
+            border-radius: 1px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+
+        }
+        .profile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+           transform: scale(1.1);
+           object-fit: cover; 
+        }
+        .profile:hover .profile-image {
+         transform: scale(1.1); 
+         }
+
+
+        .profile span {
+            font-size: 16px;
+            margin-top: 10px;
+            transition: opacity 0.3s ease;
+        }
+        .profile:hover span {
+        opacity: 1;
+         }
+       
+        .home-page {
+            display: none;
+            padding: 20px;
+            background-color: #000; 
+        }
+
+        .small-image-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .small-image {
+            width: 100%;
+            height: 100%;
+           
+            object-fit: cover;
+          
+        }
+
+        .play-info-buttons {
+            position: absolute;
+            bottom: 20px;      
+            left: 20px;
+           
+            text-align: left;
+            z-index: 2;
+        }
+        .info-text {
+         font-size: 1.2rem;
+         margin-bottom: 10px; 
+         line-height: 1.4;
+}
+
+
+        .play-info-buttons button {
+            background-color: #e50914;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1rem;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .play-info-buttons button:hover {
+    background-color: #090101; 
+    transform: scale(1.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+        .play-info-buttons .info-btn {
+            background-color: #e50914;
+        }
+               
+.play-info-buttons .info-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7); 
+}
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .scrollable-container {
+            display: flex;
+            overflow-x: scroll; 
+            gap: 20px;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            margin-left: 20px;
+        }
+
+        .scrollable-container::-webkit-scrollbar {
+            display: none; 
+        }
+
+        .scrollable-container {
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
+
+        .scrollable-item {
+            min-width: 130px;
+            height: 200px;
+            background-color: #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            
+        }
+        .scrollable-item:hover{
+            transform: scale(1.05); 
+            z-index: 10;  
+        }
+        .scrollable-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+.scrollable-item:hover img {
+    transform: scale(1.1); 
+}
+
+        
+    </style>
+</head>
+<body>
+    
+    <header class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix Logo">
+        <button id="signOutBtn" class="sign-out-btn" onclick="signOut()">Sign Out</button>
+         
+</header>
+    
+
+    <section id="landingPage" class="landing-page">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Unlimited movies, TV shows, and more.</h1>
+            <p>Watch anywhere. Cancel anytime.</p>
+            <button onclick="showSignInPage()">Get Started</button>
+        </div>
+    </section>
+
+   
+    <section id="signInPage" class="signin-page">
+        <div class="signin-container">
+            <h1>Sign In</h1>
+            <input type="text" placeholder="Email or phone number" id="email">
+            <input type="password" placeholder="Password" id="password">
+            <button onclick="signIn()">Sign In</button>
+            <p>New to Netflix? <a href="#" onclick="showSignUp()">Sign up now</a></p>
+        </div>
+    </section>
+
+    
+    <section id="signUpPage" class="signup-page">
+        <div class="signup-container">
+            <h1>Sign Up</h1>
+            <input type="text" placeholder="Email or phone number" id="newEmail">
+            <input type="password" placeholder="Password" id="newPassword">
+            <button onclick="signUp()">Sign Up</button>
+            <p>Already a member? <a href="#" onclick="showSignInPage()">Sign In</a></p>
+        </div>
+    </section>
+
+   
+    <section id="profilesPage" class="profiles-page"> 
+        <h1>Who's watching?</h1> 
+        <div></div> 
+        <div class="profiles"> <div class="profile" onclick="selectProfile('User 1')"> 
+            <img src="images/2.jpg" height="150", width="150" ,class="profile-image">
+             <span></span> 
+          
+            </div> 
+        <div class="profile" onclick="selectProfile('User 2')"> 
+            <img src="images/3.jpg" height="150", width="150",class="profile-image">
+             <span></span>
+             </div> 
+        <div class="profile" onclick="selectProfile('User 3')">
+            <img src="images/4.jpg" style="width: 150px; height: 150px; object-fit: cover;" class="profile-image" alt="Profile Image 3">
+ 
+             <span></span> 
+        </div>
+     </div>
+ </section>
+ 
+<section id="homePage" class="home-page">
+    
+    <div class="small-image-container">
+        <img src="images/48.jpg" width="1400">
+        <div class="play-info-buttons">
+            <div class="info-text">
+                <img src="images/knv43f8l.png", width="600",height="600">
+            </div>
+            
+            <p> When a young boy vanishes, a small town uncovers a mystery involving secret experiments,</p>
+            <p>  terrifying supernatural forces and one strange little girl. Watch trailers & learn more.</p>
+            
+            <button class="play-btn">Play</button>
+            <button class="info-btn">More Info</button>
+        </div>
+    </div>
+
+    
+    <h2 class="section-title">Movies</h2>
+    <div class="scrollable-container movies-grid">
+        <div class="scrollable-item">
+        <img src="images/6.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/7.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/5.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/8.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/9.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/10.jpg", height="200",width="200">
+    </div>
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/11.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/12.jpg", height="200",width="200">
+        </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/13.jpg", height="200",width="200">
+    </div> 
+         <div class="Movie-title"></div>
+        <div class="scrollable-item">
+        <img src="images/14.jpg", height="200",width="200">
+    </div> 
+
+    </div>     
+    
+
+    <h2 class="section-title">Series</h2>
+    <div class="scrollable-container series-grid">
+        <div class="scrollable-item">
+         <img src="images/15.jpg",height="20",width="20">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/16.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/17.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/18.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/19.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/20.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/21.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/22.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/23.jpg" height="200" width="200" alt="Series 2">
+        </div>
+        <div class="scrollable-item">
+            <img src="images/24.jpg" height="200" width="200" alt="Series 2">
+        </div>
+    </div>
+
+    <h2 class="section-title">Continue Watching</h2>
+    <div class="scrollable-container continue-watching-grid">
+     <div class="scrollable-item">
+        <img src="images/25.jpg"  width="200" height="200">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/26.jpg"  width="200" height="200">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/27.jpg"  width="200" height="200">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/28.jpg"  width="200" height="200">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/29.jpg" width="200" height="200">
+    </div>
+</div>
+
+<h2 class="section-title">Top 10</h2>
+<div class="scrollable-container top10-grid">
+    <div class="scrollable-item">
+        <img src="images/31.jpg" width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/30.jpg" width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/18.jpg" width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/37.jpg" alt="Top 10 Movie 4" width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/34.jpg" alt="Top 10 Movie 5" width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/36.jpg" width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/35.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/20.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/29.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/32.jpg"  width="200" height="300">
+    </div>
+</div>
+
+
+<h2 class="section-title">Recommended</h2>
+<div class="scrollable-container recommended-grid">
+    <div class="scrollable-item">
+        <img src="images/38.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/39.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/40.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/41.jpg"   width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/42.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/43.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/44.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/33.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/45.jpg"  width="200" height="300">
+    </div>
+    <div class="scrollable-item">
+        <img src="images/46.jpg"  width="200" height="300">
+    </div>
+</div>
+
+</section>
+
+<script>
+    const landingPage = document.getElementById('landingPage');
+    const signInPage = document.getElementById('signInPage');
+    const signUpPage = document.getElementById('signUpPage');
+    const profilesPage = document.getElementById('profilesPage');
+    const homePage = document.getElementById('homePage');
+    const signOutBtn = document.getElementById('signOutBtn');
+    
+
+
+    
+    function showSignInPage() {
+        landingPage.style.display = 'none';
+        signInPage.style.display = 'flex';
+        signUpPage.style.display = 'none';
+    }
+
+    
+    function showSignUp() {
+        signInPage.style.display = 'none';
+        signUpPage.style.display = 'flex';
+    }
+
+    
+    function signIn() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (email && password) {
+            signInPage.style.display = 'none';
+            profilesPage.style.display = 'block';
+        } else {
+            alert("Please enter valid credentials.");
+        }
+    }
+
+    
+    function signUp() {
+        const newEmail = document.getElementById('newEmail').value;
+        const newPassword = document.getElementById('newPassword').value;
+
+        if (newEmail && newPassword) {
+            alert("Account created! Please sign in.");
+            showSignInPage();
+        } else {
+            alert("Please enter valid details.");
+        }
+    }
+
+    
+    function selectProfile(profileName) {
+        profilesPage.style.display = 'none';
+        homePage.style.display = 'block';
+        signOutBtn.style.display = 'block';
+    }
+
+    
+    function signOut() {
+        homePage.style.display = 'none';
+        landingPage.style.display = 'block';
+        signOutBtn.style.display = 'none';
+    }
+</script>
