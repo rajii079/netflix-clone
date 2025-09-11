@@ -39,3 +39,5 @@ This project is for educational purposes only and is not intended to be used as 
 Acknowledgments
 
 This project was inspired by the original Netflix homepage and built using publicly available resources.
+
+Link: https://netfl1x-clone7.netlify.app/
